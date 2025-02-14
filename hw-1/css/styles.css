@@ -1,0 +1,70 @@
+:root {
+    --dark-theme-header: #4a7281;
+    --light-theme-header: #d1f1ff;
+    --light-theme: #81cde0;
+    --dark-theme: #3a545e;
+}
+
+.dark-theme {
+    background-color: var(--dark-theme);
+}
+
+.light-theme {
+    background-color: var(--light-theme);
+}
+
+header.dark-theme {
+    background-color: var(--dark-theme-header);
+}
+
+header.light-theme {
+    background-color: var(--light-theme-header);
+}
+
+header {
+    border-radius: 20px;
+}
+
+.logo {
+    width: 100%;
+}
+
+.logo img {
+    display: block;
+    height: 45px;
+    width: auto;
+    margin: 0 auto;
+}
+
+footer p {
+    text-align: center;
+}
+
+main {
+    margin-top: 40px;
+}
+
+main .light-theme {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    width: 300px;
+    margin: 0 auto;
+    border-radius: 30px;
+    background-color: var(--light-theme-header);
+}
+
+main .dark-theme {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    width: 300px;
+    margin: 0 auto;
+    border-radius: 30px;
+    background-color: var(--dark-theme-header);
+}
+
