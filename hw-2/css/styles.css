@@ -1,0 +1,67 @@
+:root {
+    --theme-header: #4a7281;
+    --theme: #3a545e;
+}
+
+.theme {
+    background-color: var(--theme);
+}
+
+header.theme {
+    background-color: var(--theme-header);
+}
+
+header {
+    border-radius: 20px;
+}
+
+.logo {
+    width: 100%;
+}
+
+.logo img {
+    display: block;
+    height: 45px;
+    width: auto;
+    margin: 0 auto;
+}
+
+footer p {
+    text-align: center;
+}
+
+main {
+    margin-top: 40px;
+}
+
+main .light-theme {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    width: 300px;
+    margin: 0 auto;
+    border-radius: 30px;
+    background-color: var(--light-theme-header);
+}
+
+main .dark-theme {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    width: 300px;
+    margin: 0 auto;
+    border-radius: 30px;
+    background-color: var(--dark-theme-header);
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    margin: 0 auto;
+}
+
