@@ -24,7 +24,8 @@ echo '<BR>'.'Задание 15';
 echo '<BR>'.preg_replace('/a\\\\a/', '!', 'a\a abc');
 
 #32
+echo '<BR>'.'Задание 32';
 $str = 'abc 123 def 45 ghi 6 jkl 789';
 preg_match_all('/\d+/', $str, $matches);
 $sum = array_sum($matches[0]);
-echo $sum; # Выведет: 963 (123 + 45 + 6 + 789)
+echo '<BR>'.$sum; # Выведет: 963 (123 + 45 + 6 + 789)
