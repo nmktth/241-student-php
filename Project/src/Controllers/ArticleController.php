@@ -38,7 +38,7 @@ class ArticleController {
         $article->text = $_POST['text'];
         $article->authorId = 1;
         $article->save();
-        return header('Location:http://localhost/student-241/3210_1/Project/www/');
+        return header('Location:http://localhost/student/php/241-student-php/Project/www/');
     }
 
     public function edit(int $id){
@@ -66,6 +66,6 @@ class ArticleController {
             throw new NotFoundException();
         }
         $article->delete();
-        return header('Location:http://localhost/student-241/3210_1/Project/www/');
+        return header('Location:http://localhost/student/php/241-student-php/Project/www/');
     }
 }
