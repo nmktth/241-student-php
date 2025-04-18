@@ -4,33 +4,38 @@ namespace src\Models\Users;
 
 use src\Models\ActiveRecordEntity;
 
-class User extends ActiveRecordEntity // класс User наследуется от ActiveRecordEntity
+class User extends ActiveRecordEntity // Класс User наследует функциональность от ActiveRecordEntity
 {
-    protected $nickname; //эти свойства будут доступны самому классу и его детишкам 
-    protected $email;
-    protected $isConfirmed;
-    protected $role;
-    protected $passwordHash;
-    protected $authToken;
-    protected $createdAt;
+    protected $nickname; // Никнейм пользователя
+    protected $email; // Электронная почта пользователя
+    protected $isConfirmed; // Статус подтверждения аккаунта (например, подтверждён ли email)
+    protected $role; // Роль пользователя (например, администратор или обычный пользователь)
+    protected $passwordHash; // Хэш пароля пользователя
+    protected $authToken; // Токен для авторизации пользователя
+    protected $createdAt; // Дата и время создания аккаунта пользователя
 
+    // Устанавливаем значение для свойства nickname (псевдоним пользователя)
     public function setName(string $name): void 
     {
-        $this->nickname = $name;  //свойтсву nickname присвоены значения прееменной $name
+        $this->nickname = $name; // Присваиваем значение переменной $name свойству $nickname
     }
 
+    // Получаем значение псевдонима (никнейма) пользователя
     public function getNickname(): string 
     {
-        return $this->nickname; // возвращает текущее значение nickanme 
+        return $this->nickname; // Возвращаем текущий никнейм пользователя
     }
 
-    public function getName(): string // метод должен вернуть строку 
+    // Метод getName также возвращает никнейм, чтобы обеспечить совместимость с интерфейсами
+    public function getName(): string // Метод должен вернуть строковое значение (псевдоним)
     {
-        return $this->nickname;
+        return $this->nickname; // Возвращаем значение свойства nickname
     }
 
-    protected static function getTableName(): string // здесь мы указываем, с какой таблицей работает модель 
+    // Указываем, с какой таблицей работает модель
+    protected static function getTableName(): string 
     {
-        return 'users';
+        return 'users'; // Модель работает с таблицей 'users'
     }
 }
+?>

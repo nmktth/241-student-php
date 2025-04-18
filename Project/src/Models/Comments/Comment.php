@@ -9,60 +9,64 @@ use DateTime;
 
 class Comment extends ActiveRecordEntity
 {
-    protected $text;
-    protected $authorId;
-    protected $articleId;
-    protected $createdAt;
+    protected $text; // Текст комментария
+    protected $authorId; // ID автора комментария
+    protected $articleId; // ID статьи, к которой относится комментарий
+    protected $createdAt; // Дата и время создания комментария
 
+    // Получаем текст комментария с экранированием специальных символов
     public function getText(): string
     {
         return htmlspecialchars($this->text);
     }
 
+    // Получаем объект пользователя, оставившего комментарий, по ID
     public function getAuthor(): User
     {
-        return User::getById($this->authorId); // возвращение объекта User 
+        return User::getById($this->authorId); // Возвращаем объект User через метод getById()
     }
 
+    // Получаем ID статьи, к которой привязан комментарий
     public function getArticleId(): int
     {
         return $this->articleId;
     }
 
+    // Получаем дату и время создания комментария в нужном формате
     public function getCreatedAt(): string
     {
-        $date = new DateTime($this->createdAt);
-        return $date->format('d.m.Y H:i');
+        $date = new DateTime($this->createdAt); // Создаём объект DateTime на основе значения createdAt
+        return $date->format('d.m.Y H:i'); // Форматируем дату в 'дд.мм.гггг чч:мм'
     }
 
+    // Устанавливаем текст комментария, обрезая пробелы в начале и конце
     public function setText(string $text): void
     {
-        $this->text = trim($text); // обрезка пробелов в начале и конце строки 
+        $this->text = trim($text); // Убираем лишние пробелы с концов строки
     }
 
+    // Устанавливаем ID автора комментария
     public function setAuthorId(int $authorId): void
     {
         $this->authorId = $authorId;
     }
 
+    // Устанавливаем ID статьи, к которой привязан комментарий
     public function setArticleId(int $articleId): void
     {
         $this->articleId = $articleId;
     }
 
-    public static function findAllByArticleId(int $articleId): array //тут получаем все комментарии к статье
+    // Получаем все комментарии по ID статьи, отсортированные по дате создания
+    public static function findAllByArticleId(int $articleId): array
     {
-        $db = Db::getInstance(); // подключение к БД посредством синглтона 
-        $sql = 'SELECT * FROM `'.static::getTableName().'` 
-                WHERE `article_id` = :article_id 
-                ORDER BY `created_at` DESC';
-        $result = $db->query($sql, [':article_id' => $articleId], static::class); // тут преобразуем резульат в объект класса Comment
-        return $result ?: [];
-    }
+        return static::findByColumnOrdered('article_id', $articleId, 'created_at', 'DESC'); // Получаем комментарии по колонке article_id, отсортированные по created_at в убывающем порядке
+    }    
 
-    protected static function getTableName(): string // здесь мы указываем, с какой таблицей работает модель 
+    // Указываем таблицу, с которой работает модель (используется в ActiveRecord)
+    protected static function getTableName(): string
     {
-        return 'comments';
+        return 'comments'; // Модель работает с таблицей 'comments'
     }
 }
 ?>

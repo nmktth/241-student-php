@@ -1,8 +1,6 @@
 <?php
 
-
 namespace src\Controllers;
-
 
 use src\Models\Comments\Comment;
 use src\View\View;
@@ -10,84 +8,85 @@ use src\Services\Db;
 use src\Models\Articles\Article;
 use src\Models\Users\User;
 use Exception;
-
+use Exceptions\NotFoundException;
+use Exceptions\DbException;
 
 class ArticleController {
     private $view;
     private $db;
 
-
+    // Конструктор инициализирует объект для рендеринга и подключение к базе данных
     public function __construct()
     {
-        $this->view = new View(dirname(dirname(__DIR__)).'/templates');
-        $this->db = Db::getInstance();
+        $this->view = new View(dirname(dirname(__DIR__)).'/templates'); // Задаём путь к шаблонам для рендеринга
+        $this->db = Db::getInstance(); // Получаем экземпляр подключения к базе данных
     }
 
-
+    // Метод для отображения списка всех статей
     public function index() {
-        $articles = Article::findAll(); // запрос всех статей с помощью через метод findAll который реализован в ARE.php
-        $this->view->renderHtml('main/main', ['articles' => $articles]); // рендерит шаблон, передавая все статьи
+        $articles = Article::findAll(); // Получаем все статьи через метод findAll, определённый в модели Article
+        $this->view->renderHtml('main/main', ['articles' => $articles]); // Рендерим шаблон главной страницы с переданными статьями
     }
 
-
-    public function show(int $id) // тут смотрим одну статью 
+    // Метод для отображения одной статьи по её ID
+    public function show(int $id) 
     {
-        $article = Article::getById($id);
+        $article = Article::getById($id); // Получаем статью по её ID
         if (!$article) {
-            throw new NotFoundException();
+            throw new NotFoundException(); // Если статья не найдена, выбрасываем исключение
         }
 
-        $comments = Comment::findAllByArticleId($id) ?? []; 
-        
-        $this->view->renderHtml('article/show', [ //тут рендерим шаблон article/show и передаем статью, автора и комментарии 
+        $comments = Comment::findAllByArticleId($id) ?? []; // Получаем все комментарии к статье
+        $this->view->renderHtml('article/show', [ // Рендерим шаблон страницы статьи, передавая статью, автора и комментарии
             'article' => $article,
             'author' => $article->getAuthor(),
             'comments' => $comments
         ]);
     }
 
-
+    // Метод для удаления статьи по её ID
     public function delete(int $id) 
     {
-        $article = Article::getById($id);
+        $article = Article::getById($id); // Получаем статью по её ID
         if (!$article) {
-            throw new NotFoundException();
+            throw new NotFoundException(); // Если статья не найдена, выбрасываем исключение
         }
-        $article->delete(); // тут удаляем статью через delete() - метод из ActiveRecordEntity
-        header("Location: http://localhost/PHP/Project/www/");
+        $article->delete(); // Удаляем статью через метод delete() из класса ActiveRecordEntity
+        header("Location: http://localhost/student/php/241-student-php/Project/www"); // Перенаправляем на главную страницу после удаления
     }
-    
 
+    // Метод для отображения формы создания новой статьи
     public function create(){
-        return $this->view->renderHtml('article/create');  // тут рендерим форму создания статьи templates/article/create.php
+        return $this->view->renderHtml('article/create');  // Рендерим шаблон формы для создания статьи
     }
 
-
+    // Метод для отображения формы редактирования статьи
     public function edit(int $id){
-        $article = Article::getById($id);
-        return $this->view->renderHtml('/article/edit', ['article'=>$article]); // тут рендерим форму редактирования templates/article/edit.phр, передавая id статьи 
+        $article = Article::getById($id); // Получаем статью по её ID
+        return $this->view->renderHtml('/article/edit', ['article'=>$article]); // Рендерим форму редактирования статьи с данными о статье
     }
 
-
+    // Метод для обновления данных статьи в базе данных
     public function update(int $id)
-{
-    $article = Article::getById($id); // тут вызываем метод getById() из класса Article, который наследуется от ActiveRecordEntity
-    if (!$article) {
-        throw new NotFoundException();
-    }
-    $article->setName($_POST['name']);
-    $article->setText($_POST['text']);
-    $article->save(); // запрос на сохранение идет от объекта модели - active record
-    header("Location: http://localhost/PHP/Project/www/");
-}
-
-    public function store() // функция для сохранения новых статей
     {
-        $article = new Article(); // создали новый объект
-        $article->setName($_POST['name']);
-        $article->setText($_POST['text'] ?? '');
-        $article->setAuthorId(1); 
-        $article->save(); // INSERT to Db
-        header("Location: http://localhost/PHP/Project/www/"); 
+        $article = Article::getById($id); // Получаем статью по её ID
+        if (!$article) {
+            throw new NotFoundException(); // Если статья не найдена, выбрасываем исключение
+        }
+        $article->setName($_POST['name']); // Обновляем название статьи
+        $article->setText($_POST['text']); // Обновляем текст статьи
+        $article->save(); // Сохраняем изменения в базе данных с помощью метода save() из ActiveRecord
+        header("Location: http://localhost/student/php/241-student-php/Project/www"); // Перенаправляем на главную страницу после обновления
+    }
+
+    // Метод для сохранения новой статьи в базе данных
+    public function store() 
+    {
+        $article = new Article(); // Создаём новый объект статьи
+        $article->setName($_POST['name']); // Устанавливаем название статьи
+        $article->setText($_POST['text'] ?? ''); // Устанавливаем текст статьи, если он задан
+        $article->setAuthorId(1); // Устанавливаем ID автора статьи
+        $article->save(); // Сохраняем статью в базе данных с помощью метода save()
+        header("Location: http://localhost/student/php/241-student-php/Project/www"); // Перенаправляем на главную страницу после сохранения
     }
 }
