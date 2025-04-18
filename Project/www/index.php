@@ -38,9 +38,5 @@ catch(NotFoundException $e){
     $view->renderHtml('errors/400', ['error'=>$e->getMessage()], 404);
 }
 
-
-    $user = new src\Models\Users\User('Ivan');
-    $article = new src\Models\Articles\Article('title', 'text', $user);
-
     // var_dump($user);
     // var_dump($article);

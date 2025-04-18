@@ -21,6 +21,9 @@
           <a class="nav-link" href="<?=dirname($_SERVER['SCRIPT_NAME']);?>/hello/olga">Hello</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="<?= dirname($_SERVER['SCRIPT_NAME']); ?>/bye/myBro">Bye</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="<?=dirname($_SERVER['SCRIPT_NAME']);?>/article/create">Create article</a>
         </li>
       </ul>
@@ -29,4 +32,4 @@
 </nav>
 </header>
 <main>
-    <div class="container mt-3"></div>
+    <div class="container mt-3">
